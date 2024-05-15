@@ -49,9 +49,13 @@ class MainActivity : AppCompatActivity() {
             val noteIndex = notes.indexOfFirst { it.id == updatedNote?.id }
             if (updatedNote != null) {
                 notes[noteIndex] = updatedNote
-                    // notes.sortByDescending { it.importance }
+                notes.sortByDescending { it.importance }
+                notesRecyclerView.apply {
+                    layoutManager = LinearLayoutManager(this@MainActivity)
+                    adapter = NoteAdapter(notes, ::onNoteClicked)
+                }
             }
-            notesRecyclerView.adapter?.notifyItemChanged(noteIndex)
+            //notesRecyclerView.adapter?.notifyItemChanged(noteIndex)
         }
         else if(requestCode == 1 && resultCode == RESULT_CANCELED){
             val updatedNote = data?.getParcelableExtra<Note>("note")

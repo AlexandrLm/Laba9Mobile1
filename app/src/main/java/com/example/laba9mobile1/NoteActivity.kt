@@ -2,7 +2,6 @@ package com.example.laba9mobile1
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
@@ -23,13 +22,17 @@ class NoteActivity : AppCompatActivity() {
         val saveButton = findViewById<Button>(R.id.saveButton)
         val deleteButton = findViewById<Button>(R.id.deleteButton)
 
-        note = intent.getParcelableExtra<Note>("note")!!
+        note = intent.getParcelableExtra("note")!!
 
         titleEditText.setText(note.title)
         descriptionEditText.setText(note.description)
 
-        val importanceLevels = arrayOf("Low", "Medium", "High")
-        importanceSpinner.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, importanceLevels)
+        val importanceValues = arrayOf("Low", "Medium", "High")
+        val importanceImages = intArrayOf(R.drawable.green, R.drawable.yellow, R.drawable.redpng)
+
+        val adapter = ImportanceSpinnerAdapter(this, importanceValues, importanceImages)
+        importanceSpinner.adapter = adapter
+
         importanceSpinner.setSelection(note.importance)
 
         saveButton.setOnClickListener {
