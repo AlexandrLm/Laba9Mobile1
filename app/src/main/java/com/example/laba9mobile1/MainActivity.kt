@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("note", selectedNote)
         startActivityForResult(intent, 1)
     }
-
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -50,12 +49,15 @@ class MainActivity : AppCompatActivity() {
             val noteIndex = notes.indexOfFirst { it.id == updatedNote?.id }
             if (updatedNote != null) {
                 notes[noteIndex] = updatedNote
+                    // notes.sortByDescending { it.importance }
             }
             notesRecyclerView.adapter?.notifyItemChanged(noteIndex)
         }
-    }
-
-    companion object {
-        const val NOTE_REQUEST_CODE = 1001
+        else if(requestCode == 1 && resultCode == RESULT_CANCELED){
+            val updatedNote = data?.getParcelableExtra<Note>("note")
+            val index = notes.indexOf(updatedNote)
+            notes.remove(updatedNote)
+            notesRecyclerView.adapter?.notifyItemChanged(index)
+        }
     }
 }

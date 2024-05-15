@@ -42,7 +42,10 @@ class NoteActivity : AppCompatActivity() {
         }
 
         deleteButton.setOnClickListener {
-            setResult(RESULT_CANCELED)
+            val intent = Intent().apply {
+                putExtra("note", note)
+            }
+            setResult(RESULT_CANCELED, intent)
             finish()
         }
     }
